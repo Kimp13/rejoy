@@ -11,6 +11,11 @@ export default {
     'props'
   ],
   data() {
+<<<<<<< HEAD
+=======
+    console.log('List');
+    console.log(this.props);
+>>>>>>> af1851621ef55235b1f3fca976b4d87a8b579a6d
     return {
       selectedItem: this.props.items[0]
     }

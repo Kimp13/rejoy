@@ -67,6 +67,13 @@ $RECYCLE.BIN/
 
 .tmp
 *.log
+<<<<<<< HEAD
+=======
+*.sql
+*.sqlite
+*.sqlite3
+
+>>>>>>> af1851621ef55235b1f3fca976b4d87a8b579a6d
 
 ############################
 # Misc.
