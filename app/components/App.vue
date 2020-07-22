@@ -2,29 +2,55 @@
 
   <GridLayout rows="*, 60">
     <ContentView row="0">
-      <Frame>
-        <Layout :page="page" />
-      </Frame>
+      <component :is="currentFrame" />
     </ContentView>
 
-    <Nav row="1" />
+    <Nav row="1" :currentFrameIndex="currentFrameIndex" v-on:changeFrame="changeFrame" />
   </GridLayout>
 
 </template>
 
 <script>
-import Layout from './services/Layout';
+import TrollLayout from './not-ready/Layout';
+import ServicesLayout from './services/Layout';
+import HomeLayout from './home/Layout';
+import NewsLayout from './news/Layout';
+import InfoLayout from './info/Layout';
 import Nav from './Nav';
+import Vue from 'vue';
+
+process.env.API_HOSTNAME = 'http://192.168.43.67:1337';
 
 export default {
   data() {
     return {
-      page: 'Index'
+      currentFrameIndex: 2,
+      layouts: [
+        TrollLayout,
+        ServicesLayout,
+        HomeLayout,
+        NewsLayout,
+        InfoLayout
+      ]
     };
   },
   components: {
-    Layout,
+    TrollLayout,
+    ServicesLayout,
+    HomeLayout,
+    NewsLayout,
+    InfoLayout,
     Nav
+  },
+  methods: {
+    changeFrame(data) {
+      this.currentFrameIndex = data;
+    }
+  },
+  computed: {
+    currentFrame() {
+      return this.layouts[this.currentFrameIndex];
+    }
   }
 }
 </script>

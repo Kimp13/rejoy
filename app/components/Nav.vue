@@ -1,7 +1,7 @@
 <template>
 
   <StackLayout class="footer" orientation="horizontal" row="2" col="0">
-    <Label v-for="(label, index) in labels" :class="(index === currentIndex ? 'fas current' : (index === chosenIndex ? 'fas chosen' : 'fas'))">{{ label.icon }}</Label>
+    <Label v-for="(label, index) in labels" :class="(index === currentFrameIndex ? 'fas current' : (index === chosenIndex ? 'fas chosen' : 'fas'))" :key="index" v-on:touch="touch($event, index)">{{ label.icon }}</Label>
   </StackLayout>
 
 </template>
@@ -9,42 +9,47 @@
 <script>
 
 export default {
+  props: [
+    'currentFrameIndex'
+  ],
   data() {
+    console.log(this.currentFrameIndex);
     return {
-      currentIndex: 1,
       chosenIndex: null,
       labels: [
         {
-          icon: ''
+          icon: '\uf009'
         },
         {
-          icon: ''
+          icon: '\uf15c'
         },
         {
-          icon: ''
+          icon: '\uf015'
         },
         {
-          icon: ''
+          icon: '\uf1ea'
         },
         {
-          icon: ''
+          icon: '\uf05a'
         }
       ]
     }
   },
   methods: {
-    touch(e) {
-      console.log(this.buttonClasses);
-    }
-  },
-  computed: {
-    buttonClasses(index) {
-      if (index === this.currentIndex) {
-        return 'fas current';
-      } else if (index === this.chosenIndex) {
-        return 'fas chosen';
+    touch(event, index) {
+      if (event.action === 'down') {
+        if (index === this.currentFrameIndex) {
+          console.log('Why would you press that button?');
+        } else {
+          this.chosenIndex = index;
+        }
       } else {
-        return 'fas';
+        if (index === this.currentFrameIndex) {
+          console.log('You haven\'t even pressed that.');
+        } else {
+          this.chosenIndex = null;
+          this.$emit('changeFrame', index);
+        }
       }
     }
   }
@@ -66,8 +71,9 @@ export default {
     font-size: 32;
     text-align: center;
     &.chosen {
-      color: blue;
-      opacity: .7;
+      background: blue;
+      color: #f1f1f1;
+      opacity: .8;
     }
     &.current {
       color: blue;
