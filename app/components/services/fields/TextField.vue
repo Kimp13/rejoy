@@ -1,7 +1,7 @@
 <template>
   
   <StackLayout orientation="vertical">
-    <TextField class="main-form-contents-field" editable="true" v-model="fieldValue" :hint="props.options.hint" :maxLength="props.options.maxLength || 256" />
+    <TextField class="main-form-contents-field" editable="true" v-model="fieldValue" :hint="props.options.hint || 'Поле'" :maxLength="props.options.maxLength || 256" />
     <Label v-if="error" class="main-form-contents-error" :text="error" />
   </StackLayout>
 

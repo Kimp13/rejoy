@@ -9,10 +9,6 @@
     "timestamps": true
   },
   "attributes": {
-    "service_category": {
-      "model": "service-category",
-      "via": "services"
-    },
     "image": {
       "collection": "file",
       "via": "related",
@@ -35,6 +31,10 @@
     },
     "icon": {
       "type": "string"
+    },
+    "categoryId": {
+      "type": "integer",
+      "required": false
     }
   }
 }

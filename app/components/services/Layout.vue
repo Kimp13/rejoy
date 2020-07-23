@@ -3,7 +3,7 @@
     <Page actionBarHidden="true">
       <GridLayout class="wrapper" columns="*" :rows="gridRows">
         <ScrollView class="main" orientation="vertical" row="0" rowSpan="2" col="0">
-          <component :is="page" :props="pageProperties" @returnHome="returnHome" />
+          <component :is="page" :props="pageProperties" @returnHome="returnHome" @goToForm="openServiceForm" />
         </ScrollView>
         <AbsoluteLayout class="header" row="0" col="0">
           <Image class="header-background" top="0" left="0" src="~/assets/images/header0.png" />
@@ -20,7 +20,7 @@
             <Label v-if="loadingServices" class="header-buttons-label" text="Загрузка услуг..." />
             <Label v-else-if="loadingError" class="header-buttons-label" text="Ошибка загрузки услуг." />
             <Label v-else-if="noAvailableServices" class="header-buttons-label" text="Нет доступных услуг." />
-            <FlexboxLayout justifyContent="center">
+            <FlexboxLayout v-else justifyContent="center">
               <Button class="fas" v-for="service in popularServices" :key="service.id" @tap="openServiceForm({id:service.id})">{{ service.icon }}</Button>
             </FlexboxLayout>
           </ScrollView>

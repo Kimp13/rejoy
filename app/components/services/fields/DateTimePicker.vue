@@ -30,7 +30,7 @@ export default {
         args.value.getMonth() === this.props.options.minDate.getMonth() &&
         args.value.getFullYear() === this.props.options.minDate.getFullYear()
       ) {
-        ч
+        console.log(this.$refs);
       }
     },
     timePickerLoadedHandler(args) {

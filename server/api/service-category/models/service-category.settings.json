@@ -14,10 +14,6 @@
       "private": false,
       "required": true,
       "unique": true
-    },
-    "services": {
-      "via": "service_category",
-      "collection": "service"
     }
   }
 }
