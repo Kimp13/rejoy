@@ -2,9 +2,9 @@
   <Frame>
     <Page actionBarHidden="true">
       <GridLayout class="wrapper" columns="*" :rows="gridRows">
-        <ScrollView class="main" orientation="vertical" row="0" rowSpan="2" col="0">
-          <component :is="page" :props="pageProperties" @returnHome="returnHome" @goToForm="openServiceForm" />
-        </ScrollView>
+        <DockLayout class="main" row="0" rowSpan="2" col="0">
+          <component :is="page" :props="pageProperties" @goToPage="goToPage" />
+        </DockLayout>
         <AbsoluteLayout class="header" row="0" col="0">
           <Image class="header-background" top="0" left="0" src="~/assets/images/header0.png" />
           <FlexboxLayout justifyContent="space-between" class="header-nav" top="0" left="0">
@@ -21,7 +21,7 @@
             <Label v-else-if="loadingError" class="header-buttons-label" text="Ошибка загрузки услуг." />
             <Label v-else-if="noAvailableServices" class="header-buttons-label" text="Нет доступных услуг." />
             <FlexboxLayout v-else justifyContent="center">
-              <Button class="fas" v-for="service in popularServices" :key="service.id" @tap="openServiceForm({id:service.id})">{{ service.icon }}</Button>
+              <Button class="fas" v-for="service in popularServices" :key="service.id" @tap="goToPage({page: 'Form', props: {id:service.id}})">{{ service.icon }}</Button>
             </FlexboxLayout>
           </ScrollView>
         </AbsoluteLayout>
@@ -37,11 +37,9 @@
     if (this.headerOpened) this.toggleHeader();
   };
 
-  function openServiceForm(props) {
-    this.$navigateTo(() => {
-      this.pageProperties = props;
-      this.page = "Form";
-    });
+  function goToPage(event) {
+    this.page = event.page;
+    this.pageProperties = event.props;
     if (this.headerOpened) this.toggleHeader();
   }
 
@@ -57,6 +55,7 @@
 
   import Index from './Index';
   import Form from './Form';
+  import CreateService from './create/Layout';
 
   import axios from 'axios';
 
@@ -80,7 +79,7 @@
           .catch(e => {
             this.loadingServices = false;
             this.loadingError = true;
-            alert('Ну, ошибочка. Смотри.');
+            alert('У Вас проблемы с интернетом или у меня проблемы с software engineering\'ом?');
           });
 
       return {
@@ -98,7 +97,7 @@
     methods: {
       toggleHeader,
       returnHome,
-      openServiceForm
+      goToPage
     },
     computed: {
       gridRows: function() {
@@ -110,7 +109,8 @@
     },
     components: {
       Index,
-      Form
+      Form,
+      CreateService
     }
   }
 
@@ -181,6 +181,7 @@
 }
 
 .main {
+  width: 100%;
   margin: 60 0 0 0;
 }
 

@@ -80,7 +80,7 @@
         loadingForm,
         loadingError,
         areFieldsValid,
-
+        noForm,
         hostname: process.env.API_HOSTNAME
       };
     },

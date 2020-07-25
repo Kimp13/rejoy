@@ -1,11 +1,14 @@
 <template>
 
+
   <GridLayout rows="*, 60">
-    <ContentView row="0">
+    <ContentView v-if="loaded" row="0">
       <component :is="currentFrame" />
     </ContentView>
 
-    <Nav row="1" :currentFrameIndex="currentFrameIndex" v-on:changeFrame="changeFrame" />
+    <Nav row="1" v-if="loaded" :currentFrameIndex="currentFrameIndex" v-on:changeFrame="changeFrame" />
+
+    <Label v-else text="Загрузка пользователя..." />
   </GridLayout>
 
 </template>
@@ -19,12 +22,33 @@ import InfoLayout from './info/Layout';
 import Nav from './Nav';
 import Vue from 'vue';
 
-process.env.API_HOSTNAME = 'http://507f4043cc1d.ngrok.io';
+const appSettings = require("tns-core-modules/application-settings");
 
 export default {
   data() {
+    new Promise((resolve, reject) => {
+      if (appSettings.hasKey("jwt")) {
+        process.socket.emit("auth", {
+          jwt: appSettings.getString("jwt")
+        });
+        process.socket.on("auth", data => {
+          process.socket.off("auth");
+          resolve(data);
+        });
+      } else {
+        resolve({
+          isAuthenticated: false
+        });
+      }
+    })
+      .then((user) => {
+        process.socket.user = user;
+        this.loaded = true;
+      });
+
     return {
       currentFrameIndex: 2,
+      loaded: false,
       layouts: [
         TrollLayout,
         ServicesLayout,
