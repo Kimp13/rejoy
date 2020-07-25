@@ -19,7 +19,7 @@ import InfoLayout from './info/Layout';
 import Nav from './Nav';
 import Vue from 'vue';
 
-process.env.API_HOSTNAME = 'http://192.168.1.147:1337';
+process.env.API_HOSTNAME = 'http://507f4043cc1d.ngrok.io';
 
 export default {
   data() {
