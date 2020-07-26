@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "askings",
+  "info": {
+    "name": "asking"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "fields": {
+      "type": "json",
+      "required": true
+    },
+    "serviceId": {
+      "type": "integer",
+      "required": true
+    },
+    "userId": {
+      "required": true,
+      "type": "integer"
+    }
+  }
+}

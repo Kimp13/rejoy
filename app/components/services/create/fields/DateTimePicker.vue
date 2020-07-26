@@ -2,13 +2,13 @@
 
   <StackLayout class="main-create-field" orientation="vertical">
     <Label class="main-create-label" text="Минимальная дата:" />
-    <ListPicker :items="datePickerItems" v-model="minDatePickerIndex"/>
+    <ListPicker :items="datePickerItems" v-model="minDatePickerIndex" @selectedIndexChange="sendFieldData"/>
     <template v-if="minDatePickerIndex > 0">
       <Label class="main-create-label" text="Ручной выбор минимальной даты:" textWrap="true" />
       <DatePicker v-model="minDate" :maxDate="maxDate" @dateChange="sendFieldData" />
     </template>
     <Label class="main-create-label" text="Максимальная дата:" />
-    <ListPicker :items="datePickerItems" v-model="maxDatePickerIndex"/>
+    <ListPicker :items="datePickerItems" v-model="maxDatePickerIndex" @selectedIndexChange="sendFieldData"/>
     <template v-if="maxDatePickerIndex > 0">
       <Label class="main-create-label" text="Ручной выбор максимальной даты:" textWrap="true" />
       <DatePicker v-model="maxDate" :minDate="minDate" @dateChange="sendFieldData" />
@@ -56,8 +56,8 @@ export default {
             this.maxDatePickerIndex === 0 ?
             'now' :
             `${this.maxDate.getFullYear()}.${this.maxDate.getMonth() + 1}.${this.maxDate.getDate()}`,
-          minTime = `${this.minHours}:${this.minMinutes}`,
-          maxTime = `${this.maxHours}:${this.maxMinutes}`;
+          minTime = `${this.minHour}:${this.minMinute}`,
+          maxTime = `${this.maxHour}:${this.maxMinute}`;
 
       this.$emit('news', {
         field: {
@@ -73,16 +73,16 @@ export default {
     }
   },
   computed: {
-    minHours() {
+    minHour() {
       return this.minTime.getHours();
     },
-    minMinutes() {
+    minMinute() {
       return this.minTime.getMinutes();
     },
-    maxHours() {
+    maxHour() {
       return this.maxTime.getHours();
     },
-    maxMinutes() {
+    maxMinute() {
       return this.maxTime.getMinutes();
     }
   }

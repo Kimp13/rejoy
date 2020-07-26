@@ -9,7 +9,7 @@ process.env.API_HOSTNAME = 'http://192.168.43.67:8000';
 process.socket = new SocketIO(process.env.API_HOSTNAME);
 process.socket.connect();
 
-Vue.config.silent = (TNS_ENV === 'production')
+Vue.config.silent = (TNS_ENV === 'production');
 
 new Vue({
   store,

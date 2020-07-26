@@ -18,8 +18,15 @@
     },
     methods: {
       goToPage(args) {
-        this.page = args.page;
-        this.pageProps = args.props;
+        if (args.page === "servicesLayout") {
+          this.$emit('goToPage', {
+            page: 'Index',
+            props: {}
+          });
+        } else {
+          this.page = args.page;
+          this.pageProps = args.props;
+        }
       }
     },
     components: {

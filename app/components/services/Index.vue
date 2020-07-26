@@ -6,8 +6,8 @@
       <Label class="main-container-label" :text="category.name" :key="'l' + index"/>
       <ServicesShowcase :categoryId="category.id" :key="'s' + index" @goToForm="goToForm" />
     </template>
-    <Label v-if="loadingCategories" class="main-container-infolabel" text="Загрузка категорий..." />
-    <Label v-else-if="loadingError" class="main-container-infolabel" text="Ошибка загрузки категорий." />
+    <Label v-if="loadingCategories" class="main-container-info-label" text="Загрузка категорий..." />
+    <Label v-else-if="loadingError" class="main-container-info-label" text="Ошибка загрузки категорий." />
     <Label v-else-if="noAvailableCategories" class="main-container-info-label" text="Нет доступных категорий." />
   </StackLayout>
 

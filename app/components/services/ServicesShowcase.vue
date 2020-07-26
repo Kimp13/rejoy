@@ -3,7 +3,7 @@
   <ScrollView class="main-container-scroll" orientation="horizontal" scrollBarIndicatorVisible="false">
     <Label v-if="noServicesAvailable" class="main-container-scroll-label" text="К сожалению, в данной категории нет доступных сервисов." />
     <FlexboxLayout v-else justifyContent="center" alignItems="center">
-      <DockLayout v-for="(item, index) in services" :key="'a' + index" class="main-container-scroll-item" :style="{backgroundImage: `url('${hostname + item.image[0].url}')`}" @tap="goToForm(item.id)" stretchLastChild="false">
+      <DockLayout v-for="(item, index) in services" :key="'a' + index" class="main-container-scroll-item" :style="{backgroundImage: `url('${hostname + (item.image[0] ? item.image[0].url : '/uploads/vector_grunge_background_c0a8a912bb.jpg')}')`}" @tap="goToForm(item.id)" stretchLastChild="false">
         <Label class="main-container-scroll-item-name" dock="top" horizontalAlignment="left" textWrap="true" :text="item.name" />
         <Label class="fas main-container-scroll-item-goto" dock="bottom" horizontalAlignment="right">заказать &#xf138;</Label>
       </DockLayout>

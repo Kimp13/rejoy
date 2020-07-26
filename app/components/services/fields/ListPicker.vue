@@ -1,6 +1,6 @@
 <template>
 
-  <ListPicker class="main-form-contents-field" :items="props.items" v-model="selectedItem" />
+  <ListPicker class="main-form-contents-field" :items="props.items" v-model="selectedItem" @selectedIndexChange="sendNews" @loaded="sendNews" />
 
 </template>
 
@@ -12,7 +12,15 @@ export default {
   ],
   data() {
     return {
-      selectedItem: this.props.items[0]
+      selectedItem: 0
+    }
+  },
+  methods: {
+    sendNews() {
+      this.$emit('noErrors', {
+        name: this.props.name,
+        value: this.props.items[this.selectedItem]
+      });
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   
   <StackLayout orientation="vertical">
-    <TextField class="main-form-contents-field" editable="true" v-model="fieldValue" :hint="props.options.hint || 'Поле'" :maxLength="props.options.maxLength || 256" />
+    <TextField class="main-form-contents-field" padding="15 20" editable="true" v-model="fieldValue" :hint="props.options.hint || 'Поле'" :maxLength="props.options.maxLength || 256" />
     <Label v-if="error" class="main-form-contents-error" :text="error" />
   </StackLayout>
 
@@ -33,11 +33,12 @@ export default {
         }
       }
       if (error) {
-        this.$emit('error', this.props.index);
-        console.log('Error with TextField!')
+        this.$emit('error');
       } else {
-        this.$emit('noErrors', this.props.index);
-        console.log('No errors with TextField!')
+        this.$emit('noErrors', {
+          name: this.props.name,
+          value: this.fieldValue
+        });
       }
       return error;
     }
@@ -45,9 +46,3 @@ export default {
 }
 
 </script>
-
-<style lang="scss">
-
-
-
-</style>

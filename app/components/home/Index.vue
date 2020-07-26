@@ -1,6 +1,7 @@
 <template>
-  
-  <Label class="main-label" v-if="user.isAuthenticated" text="Вы успешно вошли в приложение." />
+
+  <AskingsShowcase v-if="user.isRoot" />
+  <Label v-else-if="user.isAuthenticated" class="main-label" text="Вы успешно вошли в приложение." />
   <StackLayout class="main-form" v-else orientation="vertical">
     <Label class="main-form-label" text="Если у Вас уже есть аккаунт, войдите в приложение:" textWrap="true" />
     <Label class="main-form-error" v-if="invalidCredentials" text="Неправильный логин или пароль." textWrap="true" />
@@ -22,6 +23,8 @@
 <script>
 import axios from "axios";
 
+import AskingsShowcase from "./AskingsShowcase";
+
 const appSettings = require("tns-core-modules/application-settings");
   
 export default {
@@ -40,6 +43,7 @@ export default {
         this.invalidCredentials = false;
       }
     },
+
     signIn() {
       this.authenticating = true;
 
@@ -58,6 +62,7 @@ export default {
         if (data) {
           this.authenticating = false;
           process.socket.user = data.user;
+          this.user = data.user;
           appSettings.setString("jwt", data.jwt);
         } else {
           this.invalidCredentials = true;
@@ -72,6 +77,7 @@ export default {
 
       return val.indexOf('@');
     },
+
     invalidIdentifier() {
       let val = this.identifier;
 
@@ -105,6 +111,7 @@ export default {
 
       return false;
     },
+
     invalidPassword() {
       let val = this.password;
 
@@ -118,9 +125,13 @@ export default {
 
       return false;
     },
+
     isSubmitEnabled() {
       return (!this.invalidIdentifier && !this.invalidPassword && !this.invalidCredentials && !this.authenicating);
     }
+  },
+  components: {
+    AskingsShowcase
   }
 }
 

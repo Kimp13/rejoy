@@ -19,7 +19,7 @@
       <Label v-if="fieldsError" class="main-create-error" :text="fieldsError" textWrap="true" />
       <Label v-if="!props.category" class="main-create-error" text="Выберите категорию." textWrap="true" />
       <Label v-if="nameError" class="main-create-error" :text="nameError" textWrap="true" />
-      <Button class="main-create-submit" @tap="createCategory" :isEnabled="isSubmitEnabled" text="Создать" horizontalAlignment="right" />
+      <Button class="main-create-submit" @tap="createService" :isEnabled="isSubmitEnabled" text="Создать" horizontalAlignment="right" />
     </StackLayout>
   </ScrollView>
 
@@ -78,7 +78,7 @@
           props: this.props
         });
       },
-      createCategory() {
+      createService() {
         this.loading = true;
 
         process.socket.emit('newService', {
@@ -87,7 +87,16 @@
           formFields: this.fields
         });
         process.socket.on('newService', data => {
-          console.log(data);
+          if (data.ok) {
+            alert('Услуга успешно создана!');
+            this.$emit('goToPage', {
+              page: 'servicesLayout',
+              props: {}
+            });
+          } else {
+            alert('Что-то пошло не так. Попробуйте ещё раз.');
+          }
+          process.socket.off('newService');
         });
       }
     },

@@ -121,9 +121,63 @@ module.exports = () => {
                 });
               });
           }
-
-
         });
+
+        socket.on('newService', data => {
+          strapi.query('service').create({
+            name: data.name,
+            categoryId: data.categoryId,
+            formFields: data.formFields
+          })
+            .then(data => {
+              socket.emit('newService', {
+                ok: true
+              });
+            })
+            .catch(e => {
+              socket.emit('newService', {
+                ok: false
+              });
+            });
+        });
+
+        socket.on('getAskingsCount', () => {
+          strapi.query('asking').count().then(count => {
+            socket.emit('getAskingsCount', count);
+          });
+        });
+
+        socket.on('getAskings', data => {
+          strapi.query('asking').find({
+            _start: data.skip
+          })
+            .then(data => {
+              let readyAskings = 0;
+
+              for (let i = 0; i < data.length; i += 1) {
+                strapi.query('service').findOne({
+                  id: data[i].serviceId
+                })
+                  .then(service => {
+                    data[i] = {
+                      fields: data[i].fields,
+                      serviceName: service.name,
+                      id: data[i].id
+                    }
+
+                    readyAskings += 1;
+
+                    if (readyAskings === data.length) {
+                      socket.emit('getAskings', data);
+                    }
+                  })
+                  .catch(e => {
+                    console.log(e);
+                  });
+              }
+            });
+        });
+
         socket.on('disconnect', () => {
           console.log('A user is disconnected.');
         });
